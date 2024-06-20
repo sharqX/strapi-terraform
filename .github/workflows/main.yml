@@ -18,3 +18,4 @@ jobs:
       run: git pull 
     - name: Run App
       run: npm run develop
+
