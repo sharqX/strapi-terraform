@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Change Directory
-      run: cd Task-18-6-24
+      run: cd && cd Task-18-6-24/my-strapi-project
     - name: Pull latest version
       run: git pull https://github.com/sharqX/my-strapi-project.git
     - name: Run App
