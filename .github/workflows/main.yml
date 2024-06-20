@@ -6,12 +6,15 @@ on:
 
 jobs:
 
-  runs-on: self-hosted
+  build:
 
-  steps:
-    - uses: actions/checkout@v1
-    - name: Setup and run tests
-      working-directory: home/ubuntu/Task-18-6-24/my-strapi-project
-      run: |
-        git pull
-        npm run develop
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Show directory
+      run: pwd
+    - name: Pull latest version
+      run: git pull 
+    - name: Run App
+      run: npm run develop
