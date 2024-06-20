@@ -5,17 +5,11 @@ on:
     branches: [ "main" ]
 
 jobs:
-
-  build:
-
-
     runs-on: self-hosted
 
     steps:
-    - name: Show directory
-      run: pwd
+    - uses: actions/checkout@v4
     - name: Pull latest version
       run: git pull 
     - name: Run App
       run: npm run develop
-
