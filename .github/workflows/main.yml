@@ -15,7 +15,7 @@ jobs:
     - name: Change Directory
       run: cd && cd Task-18-6-24/my-strapi-project
     - name: Pull latest version
-      run: cd && cd Task-18-6-24/my-strapi-project && git pull
+      run: git pull
     - name: Run App
-      run: cd && cd Task-18-6-24/my-strapi-project && npm run develop
+      run: npm run develop
 
