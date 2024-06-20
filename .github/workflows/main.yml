@@ -12,8 +12,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Change Directory
-      run: cd && cd Task-18-6-24/my-strapi-project
+    - uses: actions/checkout@v4
+    - name: Set working directory
+      working-directory: /home/ubuntu/Task-18-6-24/my-strapi-project
     - name: Pull latest version
       run: git pull
     - name: Run App
