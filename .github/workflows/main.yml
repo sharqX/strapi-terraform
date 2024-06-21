@@ -1,16 +1,37 @@
-name: Deloy to EC2
+name: Terraform
 
 on:
   push:
-    branches: [ "main" ]
-
+    branches:
+    - master
+    
+  pull_request:
+    branches:
+    - master
 jobs:
-  build:
+  terraform:
+    name: "Terraform"
     runs-on: self-hosted
+    env: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    defaults:
+      run:
+        working-directory: .
+    
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Pull latest version
-      run: git pull 
-    - name: Run App
-      run: npm run develop
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Git Pull lastest version
+        run: git pull https://github.com/sharqX/my-strapi-project.git           
+      
+      - name: Stop pm2
+        run: pm2 stop server
+
+      - name: Restart pm2 
+        run: pm2 restart server
+
+      - name: pm2 save state
+        run: pm2 save
