@@ -1,37 +1,31 @@
-name: Terraform
+name: Deloy to EC2
 
 on:
   push:
-    branches:
-    - master
-    
-  pull_request:
-    branches:
-    - master
+    branches: [ "main" ]
+
 jobs:
-  terraform:
-    name: "Terraform"
-    runs-on: self-hosted
-    env: 
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    defaults:
-      run:
-        working-directory: .
-    
+  deploy:
+    runs-on: ubuntu-latest
+  steps:
+  - name: Check code
+    uses: actions/checkout@v2
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  - name: Install SSH client
+    run: sudo apt-get install openssh-client
 
-      - name: Git Pull lastest version
-        run: git pull https://github.com/sharqX/my-strapi-project.git           
-      
-      - name: Stop pm2
-        run: pm2 stop server
+  - name: SSH into EC2 instance and deploy Strapi
+    uses: appleboy/ssh-action@master
+    with:
+      host: ${{ secrets.RAVI_EC2_PUBLIC_IP }}
+      username: ubuntu
+      key: ${{ secrets.RAVI_PRIVATE_SSH_KEY }}
+      script: |
+        cd my-strapi-project
+        sudo git pull 
+        pm2 stop server
+        sudo npm install
+        pm2 restart server
+        pm2 save
+                 
 
-      - name: Restart pm2 
-        run: pm2 restart server
-
-      - name: pm2 save state
-        run: pm2 save
