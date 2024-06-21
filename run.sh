@@ -1,7 +1,8 @@
 #!/bin/bash
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.bashrc
+sleep 100
 nvm install --lts
 npm install pm2 -g
 node -e "console.log('Running Node.js ' + process.version)"
