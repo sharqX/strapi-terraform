@@ -113,3 +113,10 @@ dist
 build
 .strapi-updater.json
 .strapi-cloud.json
+
+############################
+# Infra
+############################
+my-strapi-project/infra/terraform.tfstate
+my-strapi-project/infra/terraform.tfstate.backup
+my-strapi-project/infra/.terraform.lock.hcl
