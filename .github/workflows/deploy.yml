@@ -25,7 +25,7 @@ jobs:
           aws-region: ap-south-1
 
       - name: Terraform Init
-        working-directory: /infra
+        working-directory: .github/infra
         run: terraform init
 
       - name: Terraform Plan
@@ -33,5 +33,5 @@ jobs:
         run: terraform plan 
 
       - name: Terraform Apply
-        working-directory: /infra
+        working-directory: .github/infra
         run: terraform apply -auto-approve 
