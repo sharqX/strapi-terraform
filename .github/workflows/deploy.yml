@@ -18,7 +18,7 @@ jobs:
             USER_NAME: ${{secrets.AWS_EC2_USER}}
       
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+          echo "$AWS_EC2_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${AWS_EC2_USER}@${AWS_EC2_HOST} '
 
               # Now we have got the access of EC2 and we will start the deploy .
