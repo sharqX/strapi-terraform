@@ -30,7 +30,7 @@ jobs:
 
       - name: Import Existing EC2 Instance
         working-directory: .github/infra
-        run: terraform import aws_instance.strapi-server || echo "Instance already imported"
+        run: terraform import aws_instance.strapi-server i-0a5de8d2ef632fcc0 || echo "Instance already imported"
 
       # - name: Terraform Plan
       #   working-directory: .github/infra
