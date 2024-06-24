@@ -1,25 +1,37 @@
-name: Deploy
+name: Deploy to Production
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  Deploy:
-    name: Deploy to EC2
+  terraform:
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@v2 
-      - name: Build & Deploy
-        env:
-            PRIVATE_KEY: ${{ secrets.AWS_EC2_KEY }}
-            HOSTNAME: ${{secrets.AWS_EC2_HOST}}
-            USER_NAME: ${{secrets.AWS_EC2_USER}}
-      
-        run: |
-          ssh -i "${AWS_EC2_KEY}" ${AWS_EC2_USER}@${AWS_EC2_HOST}.ap-south-1.compute.amazonaws.com '
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-              # Now we have got the access of EC2 and we will start the deploy .
-              echo hello
-              '
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.7
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.MY_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.MY_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Terraform Init
+        working-directory: /infra
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: /infa
+        run: terraform plan 
+
+      - name: Terraform Apply
+        working-directory: /infra
+        run: terraform apply -auto-approve 
