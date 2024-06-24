@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16' # Adjust the Node.js version if necessary
+        node-version: '20' 
 
     - name: Install dependencies
       run: npm install
@@ -26,8 +26,8 @@ jobs:
 
     - name: Prepare SSH key
       run: |
-        echo "${{ secrets.AWS_EC2_KEY }}" | base64 --decode > deploy_key.pem
-        chmod 600 deploy_key.pem
+        echo "${{ secrets.AWS_EC2_KEY }}" | base64 --decode > awskey.pem
+        chmod 600 awskey.pem
 
     - name: Deploy to EC2
       env:
