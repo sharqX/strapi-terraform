@@ -1,4 +1,4 @@
-name: Deploy Strapi to AWS EC2
+name: Connect to EC2 and Echo Hello World
 
 on:
   push:
@@ -6,62 +6,25 @@ on:
       - main
 
 jobs:
-  deploy:
+  echo-hello-world:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        node-version: '20' 
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build the Strapi project
-      run: npm run build
-
-    - name: Prepare SSH key
+    - name: Echo Hello World on EC2
       run: |
-        echo "${{ secrets.AWS_EC2_KEY }}" 
-        chmod 600 awskey.pem
-
-    - name: Deploy to EC2
-      env:
-        HOST: ${{ secrets.AWS_EC2_HOST }}
-        USER: ${{ secrets.AWS_EC2_USER }}
-      run: |
-        scp -o StrictHostKeyChecking=no -i deploy_key.pem -r ./* $USER@$HOST:/home/$USER/my-strapi-project
-        ssh -o StrictHostKeyChecking=no -i deploy_key.pem $USER@$HOST << 'EOF'
-        #!/bin/bash
-        sudo apt update -y
-        # Variables
-        REPO_URL="https://github.com/sharqX/my-strapi-project.git"
-        DEST_DIR="/home/ubuntu/my-strapi-project.git"
-
-        # Function to check if a directory is a git repository
-        is_git_repo() {
-          git -C "$1" rev-parse 2>/dev/null
-        }
-
-        # Check if the destination directory exists
-        if [ -d "$DEST_DIR" ]; then
-          if is_git_repo "$DEST_DIR"; then
-            echo "Repository already cloned. Pulling latest changes..."
-            cd "$DEST_DIR"
-            git pull
-          else
-            echo "Directory exists but is not a git repository."
-            echo "Exiting to prevent accidental data loss."
-            exit 1
-          fi
-        else
-          echo "Cloning repository..."
-          git clone "$REPO_URL" "$DEST_DIR"
-        cd /my-strapi-project
-        sudo npm restart server.js
-        fi
-        EOF
+        aws ssm send-command \
+          --instance-ids ${{ secrets.INSTANCE_ID }} \
+          --document-name "AWS-RunShellScript" \
+          --comment "Echo Hello World" \
+          --parameters 'commands=["echo Hello, World!"]' \
+          --output text
