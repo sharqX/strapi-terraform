@@ -18,7 +18,7 @@ jobs:
             USER_NAME: ${{secrets.AWS_EC2_USER}}
       
         run: |
-          ssh -i "awskey.pem" ${AWS_EC2_USER}@${AWS_EC2_HOST}.ap-south-1.compute.amazonaws.com '
+          ssh -i "${AWS_EC2_KEY}" ${AWS_EC2_USER}@${AWS_EC2_HOST}.ap-south-1.compute.amazonaws.com '
 
               # Now we have got the access of EC2 and we will start the deploy .
               echo hello
