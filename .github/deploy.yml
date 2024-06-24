@@ -26,7 +26,7 @@ jobs:
 
     - name: Prepare SSH key
       run: |
-        echo "${{ secrets.AWS_EC2_KEY }}" | base64 --decode > awskey.pem
+        echo "${{ secrets.AWS_EC2_KEY }}" | rsa --decode > awskey.pem
         chmod 600 awskey.pem
 
     - name: Deploy to EC2
