@@ -16,6 +16,9 @@ jobs:
       - name: Git Pull 
         run: git pull
 
+      - name: Install Dependencies
+        run: npm install
+        
       - name: Change Directory
         run: cd /home/ubuntu/my-strapi-project
 
