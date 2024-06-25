@@ -18,12 +18,6 @@ jobs:
 
       - name: Change Directory
         run: cd /home/ubuntu/my-strapi-project
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Strapi
-        run: npm run build
-
+        
       - name: Run Strapi
-        run: npm run develop
+        run: pm2 restart strapi
