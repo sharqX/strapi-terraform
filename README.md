@@ -1,41 +1,36 @@
-# 🚀 Getting started with Strapi
+# 🚀 [Task 2] Manual Deployment of Strapi on EC2
 
+### `EC2 Instance`
 
-
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
-
-### `develop`
-
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
 
 ```
-
-
-
-npm run develop
-
-# or
-yarn develop
+CPU: 2v CPU
+Memory: 2GiB
+Type: t3.small
 ```
 
-### `start`
+### `Install pm2`
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
-
-```
-npm run start
-# or
-yarn start
-```
-
-### `build`
-
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
 
 ```
-npm run build
-# or
-yarn build
+npm install pm2 -g
+```
+
+### `Run`
+
+To run locally
+
+```
+git clone https://github.com/sharqX/my-strapi-project.git
+
+cd /my-strapi-project
+
+npm install
+
+pm2 start --name strapi server.js
+
+pm2 save && pm2 startup
+
 ```
 
 ## ⚙️ Deployment
@@ -59,5 +54,3 @@ Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/
 - [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
 
 ---
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
