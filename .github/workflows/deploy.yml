@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Change Directory
+        run: cd /home/ubuntu/strapi-terraform
+        
       - name: Git Pull 
         run: git pull
 
-      - name: Change Directory
-        run: cd /home/ubuntu/my-strapi-project
-        
       - name: Run Strapi
         run: pm2 restart strapi
