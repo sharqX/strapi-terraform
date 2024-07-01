@@ -5,6 +5,8 @@ resource "aws_instance" "strapi-server" {
   vpc_security_group_ids = [aws_security_group.auto-sg.id]
   associate_public_ip_address = true
 
+  # user_data = "${("run.sh")}"
+
   key_name = "awskey"
 
   tags = {
